@@ -47,7 +47,6 @@ hs_err_pid*
 *.iml
 *.ipr
 *.iws
-*.yml
 .idea/
 
 # mpeltonen/sbt-idea plugin

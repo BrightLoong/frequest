@@ -16,6 +16,12 @@ public class GeneralConstants {
      /**右括弧*/
     public static final String RIGHT_PARENTHESIS = ")";
 
+    /**左方括号*/
+    public static final String LEFT_SQUARE_BRACKETS = "[";
+
+    /**右方括号*/
+    public static final String RIGHT_SQUARE_BRACKETS = "]";
+
     /**逗号*/
     public static final String COMMA = ",";
 

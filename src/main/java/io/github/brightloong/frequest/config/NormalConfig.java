@@ -63,7 +63,7 @@ public class NormalConfig {
      * @param xmlConfigPath
      * @return
      */
-    public NormalConfig setXmlConfigPathh(String xmlConfigPath) {
+    public NormalConfig setXmlConfigPath(String xmlConfigPath) {
         this.xmlConfigPath = xmlConfigPath;
         return this;
     }

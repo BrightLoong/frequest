@@ -34,7 +34,7 @@ public class StartEngine {
     /**开启引擎*/
     public static void start() {
         //打开fastjson的autotype功能
-        ParserConfig.getGlobalInstance().addAccept(GeneralConstants.TRANSMISSIONBEAN_PATH);
+        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
         //是否是远端，如果是远端开启文件扫描功能
         boolean isRemote = NormalConfig.getInstance().getIsRemote();
         String configPath = NormalConfig.getInstance().getXmlConfigPath();
