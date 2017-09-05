@@ -3,7 +3,6 @@ package io.github.brightloong.frequest.file;
 import io.github.brightloong.frequest.log.Log;
 import io.github.brightloong.frequest.thread.ThreadExector;
 
-import java.io.File;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -12,8 +11,15 @@ import java.util.concurrent.ExecutorService;
  */
 public abstract class AbstractFileHandleObserver {
 
+    /**日志*/
     private static final Log LOGGER = Log.get(AbstractFileHandleObserver.class);
 
+    /**
+     * 通知方法.
+     * @param uuid uuid
+     * @param fileName 文件名
+     * @param fileManager 文件管理实例
+     */
     public void notify(final String uuid, final String fileName, final FileManager fileManager) {
         //新开分支执行
         ExecutorService exec = ThreadExector.getThreadExector();
@@ -26,5 +32,11 @@ public abstract class AbstractFileHandleObserver {
         });
     }
 
+    /**
+     * 更新方法.
+     * @param uuid uuid
+     * @param fileName 文件名
+     * @param fileManager 文件管理实例
+     */
     public abstract void update(String uuid, String fileName, FileManager fileManager);
 }

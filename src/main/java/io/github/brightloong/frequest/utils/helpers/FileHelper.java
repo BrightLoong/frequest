@@ -7,14 +7,15 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 
 /**
+ * 文件操作帮助类.
  * Created by BrightLoong on 2017/8/30.
  */
 public class FileHelper {
     private final  static Log LOGGER = Log.get(FileHelper.class);
 
     /**
-     * 更具文件名获取文件的一些属性
-     * @return
+     * 更具文件名获取文件的一些属性.
+     * @return 返回属性数组
      */
     public static String[] getPropertiesByFileName(String fileName) {
         String[] properties = fileName.split(GeneralConstants.HYPHEN);
@@ -22,7 +23,7 @@ public class FileHelper {
     }
 
     /**
-     * 循环删除文件10次
+     * 循环删除文件10次.
      * @param file 要删除的文件
      */
     public static void delFile(File file) {

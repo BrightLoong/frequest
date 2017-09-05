@@ -3,6 +3,7 @@ package io.github.brightloong.frequest.config;
 import io.github.brightloong.frequest.constants.GeneralConstants;
 
 /**
+ * 配置类.
  * Created by BrightLoong on 2017/8/21.
  */
 public class NormalConfig {
@@ -17,9 +18,6 @@ public class NormalConfig {
 
     /**是否远端，如果不是则将本地方法拦截调用远端方法*/
     private boolean isRemote;
-
-    /**是否打开本frequest具有的功能*/
-    private boolean isOpenFrequest;
 
     /**唯一实例*/
     private static final NormalConfig normalConfig = new NormalConfig();

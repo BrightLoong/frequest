@@ -1,7 +1,6 @@
 package io.github.brightloong.frequest.file;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import io.github.brightloong.frequest.bean.TransmissionBean;
 import io.github.brightloong.frequest.config.NormalConfig;
 import io.github.brightloong.frequest.config.PathConfig;
@@ -16,12 +15,12 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 文件管理类
  * Created by BrightLoong on 2017/8/15.
  */
 public class FileManager {
@@ -40,8 +39,10 @@ public class FileManager {
     /**临时目录*/
     private static final String tempPath = System.getProperty("java.io.tmpdir");
 
+    /**休眠时间*/
     private static final long sleepTime = NormalConfig.getInstance().getSleepTime();
 
+    /**观察者集合*/
     private List<AbstractFileHandleObserver> fileHandleObservers = new ArrayList<AbstractFileHandleObserver>();
 
     /**
@@ -50,8 +51,8 @@ public class FileManager {
     private Map<String, String> completFiles = new ConcurrentHashMap<String, String>();
 
     /**
-     * 带参数的构造器，用于初始化路径信息
-     * @param pathConfig
+     * 带参数的构造器，用于初始化路径信息.
+     * @param pathConfig 路径信息.
      */
     public FileManager(PathConfig pathConfig) {
         this.sendPath = pathConfig.getSendPath();
@@ -59,11 +60,10 @@ public class FileManager {
     }
 
     /**
-     * 生成文件到指定的目录
+     * 生成文件到指定的目录.
      * @param  type 文件类型
      * @param uuid uuid
      * @param jsonString 要写入的jsonString
-     * @throws IOException
      */
     public  void generateFileByJsonString(String type, String uuid, String jsonString) {
         String commonName = type + GeneralConstants.HYPHEN + uuid;
@@ -84,10 +84,9 @@ public class FileManager {
     }
 
     /**
-     * 扫描指定目录的文件变动
-     * @return
+     * 扫描指定目录的文件变动.
      */
-    public  void scanReceiveFileFolder() {
+    public void scanReceiveFileFolder() {
         File scanDirectory = new File(receivePath);
         String[] fileNames = scanDirectory.list();
         if (fileNames == null || fileNames.length == 0) {
@@ -115,8 +114,11 @@ public class FileManager {
         }
     }
 
-
-
+    /**
+     * 从获取文件中返回json字符串.
+     * @param fileName 文件名
+     * @return json字符串
+     */
     public  String receiveJson(String fileName)  {
         String receiveFileName = tempPath + fileName;
         String resultJson = null;
@@ -130,9 +132,9 @@ public class FileManager {
     }
 
     /**
-     * 等待接收远程返回的结果
-     * @param uuid
-     * @return
+     * 等待接收远程返回的结果.
+     * @param uuid uuid
+     * @return 远端结果
      */
     public Object receiveResult(String uuid) throws FrequsetException {
         int waitCount = NormalConfig.getInstance().getWaitCount();
@@ -173,26 +175,25 @@ public class FileManager {
     }
 
     /**
-     * 根据文件名后面的大小片段是否是有效文件
+     * 根据文件名后面的大小片段是否是有效文件.
      * @param fileName 文件名
-     * @return
+     * @return true or false
      */
     private boolean isValidFile(String fileName) {
         String[] propertise = FileHelper.getPropertiesByFileName(fileName);
         File file = new File(receivePath + File.separator + fileName);
         if (propertise.length < 3) {
             return false;
-        }
-        if (propertise[2].equals(Long.toString(file.length()))) {
+        } else if(propertise[2].equals(Long.toString(file.length()))){
             return true;
         }
         return false;
     }
 
     /**
-     *
-     * @param uuid
-     * @param fileName
+     * 通知观察者执行update.
+     * @param  uuid uuid
+     * @param fileName 文件名
      */
     private void update(String uuid, String fileName) {
         for (AbstractFileHandleObserver fileHandleObserver : fileHandleObservers) {
@@ -200,10 +201,19 @@ public class FileManager {
         }
     }
 
+    /**
+     * 将文件添加到有效map中.
+     * @param uuid uuid
+     * @param fileName 文件名
+     */
     public void addCompletFile(String uuid, String fileName) {
         completFiles.put(uuid, fileName);
     }
 
+    /**
+     *  将文件从有效map中移除.
+     * @param uuid uuid
+     */
     public void removeCompletFile(String uuid) {
         completFiles.remove(uuid);
     }

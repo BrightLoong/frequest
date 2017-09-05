@@ -1,6 +1,7 @@
 package io.github.brightloong.frequest.constants;
 
 /**
+ * 一般的常量类.
  * Created by BrightLoong on 2017/8/15.
  */
 public class GeneralConstants {
@@ -54,9 +55,6 @@ public class GeneralConstants {
 
     /**编码格式utf-8*/
     public static final String CODING_UTF8 = "UTF-8";
-
-    /**transmissionBean的包路径*/
-    public static final String TRANSMISSIONBEAN_PATH = "io.github.brightloong.frequest.bean.TransmissionBean";
 
     /**默认等待的次数*/
     public static final int DEFAULT_WAIT_COUNT = 300;

@@ -19,11 +19,19 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * xml解析帮助类.
  * Created by BrightLoong on 2017/8/25.
  */
 public class XmlParseHelper {
+    /**日志*/
     private static final Log LOGGER = Log.get(XmlParseHelper.class);
 
+    /**
+     * 获取Document.
+     * @param xmlPath 路径信息
+     * @return Document
+     * @throws NoPathConfigException 异常信息
+     */
     public static Document getDocument(String xmlPath) throws NoPathConfigException{
          ClassLoader cld = Thread.currentThread().getContextClassLoader();
         InputStream is = cld.getResourceAsStream(xmlPath);
@@ -33,17 +41,11 @@ public class XmlParseHelper {
         return getDocument(is);
     }
 
-    public static Document getDocument(File xmlFile) {
-        SAXReader saxReader = new SAXReader();
-        Document document = null;
-        try {
-            document = saxReader.read(xmlFile);
-        } catch (DocumentException e) {
-            LOGGER.error("解析xml:" + xmlFile.getPath() + "失败！" );
-        }
-        return document;
-    }
-
+    /**
+     * 获取Document.
+     * @param inputStream InputStream
+     * @return Document
+     */
     public static Document getDocument(InputStream inputStream) {
         SAXReader saxReader = new SAXReader();
         Document document = null;
@@ -55,14 +57,33 @@ public class XmlParseHelper {
         return document;
     }
 
+    /**
+     * 获取根节点
+     * @param xmlPath 路径信息
+     * @return Element
+     * @throws NoPathConfigException 异常信息
+     */
     public static Element getRootElement(String xmlPath) throws NoPathConfigException{
         return getDocument(xmlPath).getRootElement();
     }
 
+    /**
+     * 获取 element
+     * @param element element
+     * @param tag tag
+     * @return Element
+     */
     public static Element getElement(Element element, String tag) {
         return element.element(tag);
     }
 
+    /**
+     * 获取config节点信息，并进行检查.
+     * @param element Element
+     * @param xPath xPath
+     * @return List<Node>
+     * @throws NoPathConfigException 异常信息
+     */
     public static List<Node> getAndcheckedNodes(Element element, String xPath) throws NoPathConfigException {
         @SuppressWarnings("unchecked")
         List<Node> nodes = element.selectNodes(GeneralConstants.XML_NODE_CONFIG);
@@ -72,6 +93,12 @@ public class XmlParseHelper {
         return nodes;
     }
 
+    /**
+     * 获取path信息，并进行检查.
+     * @param nodes config节点list
+     * @return List<PathConfig>
+     * @throws NoPathConfigException 异常信息
+     */
     public static List<PathConfig> getAndCheckedPathConfigs(List<Node> nodes) throws NoPathConfigException {
         List<PathConfig> pathConfigs = new ArrayList<PathConfig>();
         PathConfig pathConfig;

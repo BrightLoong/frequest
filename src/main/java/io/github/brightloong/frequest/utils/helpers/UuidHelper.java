@@ -9,6 +9,10 @@ import java.util.UUID;
  * Created by BrightLoong on 2017/8/15.
  */
 public class UuidHelper {
+    /**
+     * 获取32位UUID，并去掉-
+     * @return uuid
+     */
     public static String getUuid() {
         return UUID.randomUUID().toString().toUpperCase().replace(GeneralConstants.HYPHEN,GeneralConstants.BLANK);
     }

@@ -1,28 +1,23 @@
 package io.github.brightloong.frequest.engine;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.ParserConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import io.github.brightloong.frequest.bean.TransmissionBean;
 import io.github.brightloong.frequest.config.NormalConfig;
 import io.github.brightloong.frequest.config.PathConfig;
 import io.github.brightloong.frequest.config.PathConfigLoader;
-import io.github.brightloong.frequest.constants.GeneralConstants;
 import io.github.brightloong.frequest.exception.NoPathConfigException;
-import io.github.brightloong.frequest.executer.ProxyExecuter;
 import io.github.brightloong.frequest.file.FileManager;
 import io.github.brightloong.frequest.file.observer.RequestFileHandle;
 import io.github.brightloong.frequest.log.Log;
 import io.github.brightloong.frequest.thread.ThreadManager;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
+ * 工具启动引擎.
  * Created by BrightLoong on 2017/8/15.
  */
 public class StartEngine {
+    /**日志*/
     private static final Log LOGGER = Log.get(StartEngine.class);
 
     /**客户端的clientFileManager*/
@@ -31,7 +26,9 @@ public class StartEngine {
     /**客户端是否开启代理功能*/
     private static boolean isProxy = false;
 
-    /**开启引擎*/
+    /**
+     * 开启引擎
+     */
     public static void start() {
         //打开fastjson的autotype功能
         ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
@@ -39,7 +36,7 @@ public class StartEngine {
         boolean isRemote = NormalConfig.getInstance().getIsRemote();
         String configPath = NormalConfig.getInstance().getXmlConfigPath();
         //获取配置文件信息
-        List<PathConfig> pathConfigs = null;
+        List<PathConfig> pathConfigs;
         try {
             pathConfigs = PathConfigLoader.getInstance().parsePathConfig(configPath).getPathConfigs();
         } catch (NoPathConfigException e) {
@@ -64,10 +61,18 @@ public class StartEngine {
         }
     }
 
+    /**
+     * 获取客户端的文件管理.
+     * @return FileManager
+     */
     public static FileManager getClientFileManager() {
         return clientFileManager;
     }
 
+    /**
+     * 获取是否进行代理.
+     * @return isProxy
+     */
     public static boolean getIsProxy() {
         return isProxy;
     }

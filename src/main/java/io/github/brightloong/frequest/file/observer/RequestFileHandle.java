@@ -7,16 +7,20 @@ import io.github.brightloong.frequest.constants.GeneralConstants;
 import io.github.brightloong.frequest.executer.ProxyExecuter;
 import io.github.brightloong.frequest.file.AbstractFileHandleObserver;
 import io.github.brightloong.frequest.file.FileManager;
-import io.github.brightloong.frequest.log.Log;
 import io.github.brightloong.frequest.utils.helpers.FileHelper;
 
-import java.io.IOException;
-
 /**
+ * request类文件请求观察者实现
  * Created by BrightLoong on 2017/8/28.
  */
 public class RequestFileHandle extends AbstractFileHandleObserver {
 
+    /**
+     * 对请求文件进行处理，调用方法，并返回结果文件.
+     * @param uuid uuid
+     * @param fileName 文件名
+     * @param fileManager 文件管理实例
+     */
     @Override
     public void update(String uuid, String fileName, FileManager fileManager) {
         String[] properties = FileHelper.getPropertiesByFileName(fileName);
