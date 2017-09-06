@@ -1,12 +1,6 @@
 # frequest
 
-[![Build Status](https://travis-ci.org/BrightLoong/frequest.svg?branch=master)](https://travis-ci.org/BrightLoong/frequest)
-
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.brightloong/frequest.svg)](http://search.maven.org/#artifactdetails%7Cio.github.brightloong%7Cfrequest%7C1.0%7Cjar)
-
-[![Javadocs](http://www.javadoc.io/badge/io.github.brightloong/frequest.svg)](http://www.javadoc.io/doc/io.github.brightloong/frequest)
-
-[![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
+[![Build Status](https://travis-ci.org/BrightLoong/frequest.svg?branch=master)](https://travis-ci.org/BrightLoong/frequest) [![Maven Central](https://img.shields.io/maven-central/v/io.github.brightloong/frequest.svg)](http://search.maven.org/#artifactdetails%7Cio.github.brightloong%7Cfrequest%7C1.0%7Cjar) [![Javadocs](http://www.javadoc.io/badge/io.github.brightloong/frequest.svg)](http://www.javadoc.io/doc/io.github.brightloong/frequest) [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 ## 一.简介
 这是一个用JAVA编写的，可以通过文件进行方法调用请求传输的工具。
