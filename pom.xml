@@ -9,7 +9,8 @@
     <packaging>jar</packaging>
     <version>1.0</version>
     <name>frequest</name>
-    <description>transmit service request to another server by file and get the result by file too.</description>
+    <description>这是一个用JAVA编写的，可以通过文件进行方法调用请求传输的工具。</description>
+    <url>https://github.com/BrightLoong/frequest</url>
 
     <licenses>
         <license>
@@ -17,28 +18,17 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-
-    <profiles>
-        <profile>
-            <id>jdk1.6</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <jdk>1.6</jdk>
-            </activation>
-            <properties>
-                <maven.compiler.source>1.6</maven.compiler.source>
-                <maven.compiler.target>1.6</maven.compiler.target>
-                <maven.compiler.compilerVersion>1.6</maven.compiler.compilerVersion>
-            </properties>
-        </profile>
-    </profiles>
-
     <developers>
         <developer>
             <name>brightloong</name>
             <email>chenlong_cn@163.com</email>
         </developer>
     </developers>
+    <scm>
+        <connection>scm:git@github.com:BrightLoong/frequest.git</connection>
+        <developerConnection>scm:git@github.com:BrightLoong/frequest.git</developerConnection>
+        <url>https://github.com/BrightLoong/frequest</url>
+    </scm>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
         <dependency>
@@ -115,47 +105,104 @@
         </resources>
         <plugins>
             <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <!-- 在maven的compile 阶段就开始打包 -->
-                        <phase>compile</phase>
-                        <goals>
-                            <!-- 源码单独作为一个jar包 -->
-                            <goal>jar</goal>
-                            <!--源码打进jar包中 类似执行mvn source:jar -->
-                            <!-- <goal>jar-no-fork</goal> -->
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>jdk1.6</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <jdk>1.6</jdk>
+            </activation>
+            <properties>
+                <maven.compiler.source>1.6</maven.compiler.source>
+                <maven.compiler.target>1.6</maven.compiler.target>
+                <maven.compiler.compilerVersion>1.6</maven.compiler.compilerVersion>
+            </properties>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.4</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- GPG -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>oss</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>oss</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>
