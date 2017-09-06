@@ -18,7 +18,7 @@
 
 ## 三.具体思路
 
-![项目背景](https://brightloong.github.io/images/frequest-实现思路.png)
+![实现思路](https://brightloong.github.io/images/frequest-实现思路.png)
 
 **甲：本地服务，需要点去远端服务乙**
 
