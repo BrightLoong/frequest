@@ -1,15 +1,18 @@
 # frequest
+
+[![Build Status](https://travis-ci.org/BrightLoong/frequest.svg?branch=master)](https://travis-ci.org/BrightLoong/frequest)[![Maven Central](https://img.shields.io/maven-central/v/io.github.brightloong/frequest.svg)](http://search.maven.org/#artifactdetails%7Cio.github.brightloong%7Cfrequest%7C1.0%7Cjar)[![Javadocs](http://www.javadoc.io/badge/io.github.brightloong/frequest.svg)](http://www.javadoc.io/doc/io.github.brightloong/frequest) [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
 ## 一.简介
 这是一个用JAVA编写的，可以通过文件进行方法调用请求传输的工具。
 
-项目[gitgub地址](https://github.com/BrightLoong/frequest)
+项目gitgub地址：<https://github.com/BrightLoong/frequest>
 
 ## 二.背景
 之前在项目中遇到一下的需求，如图所示: 甲处要访问部署在乙处的服务serverB(因为数据库在乙处)，不过因为一些限制原因导致甲乙两地的网络不通。但是甲乙两地之间有一个文件传输的系统仅仅可以进行文件的传输交换。
 
 基于以上的条件，考虑在甲地也搭建一个同样的服务serverA（A和B相同，并都加入对请求的处理），。但是过滤它对service层的调用，将方法调用放入文件中（也就是请求文件中），然后将文件发送到乙地对应目录（文件发送的功能并不由这两个系统负责）。serverB将解析文件的请求，调用对应方法，并将结果也存到文件中发送到甲的服务器serveA处，实现请求的响应。
 
-这里把拦截本地方法调用，生请求文件，等待远端返回结果和远端响应文件请求并将结果生成问文件的功能抽取出来。形成了工具frquest(file-request)。
+这里把拦截本地方法调用，生请求文件，等待远端返回结果和远端响应文件请求并将结果生成问文件的功能抽取出来，并对这部分功能进行了提炼重构，修改了一些问题，形成了工具frquest(file-request)。
 
 ![项目背景](https://brightloong.github.io/images/frequest-背景.png)
 
@@ -32,7 +35,26 @@
 
 ## 四. 使用
 
-### 1. 配置发送接收文件的目录
+可在java项目中使用。
+
+### 1. 引用
+
+- 直接下载jar包，下载地址<http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22frequest%22>
+
+
+- 使用maven的方式引用
+
+  ```xml
+  <dependency>
+  	<groupId>io.github.brightloong</groupId>
+  	<artifactId>frequest</artifactId>
+  	<version>1.0</version>
+  </dependency>
+  ```
+
+> **注：**如果是java项目需要继承aspectj环境，如果是集成了spring的web项目需要开启aspectj支持
+
+### 2. 配置发送接收文件的目录
 
 请求端的发送目录是指拦截请求生成的请求文件，接收目录是指发送请求后等待接收的结果文件的目录。
 
@@ -57,18 +79,18 @@
 </configs>
 ```
 
-### 2. 请求端（被拦截端）配置
+### 3. 请求端（被拦截端）配置
 
 - 同样首先需要配置收发文件目录（也就是上面说的xml）
 
 - 如果是简单的java项目可使用下面的方式启动。
 
   - 继承`ServiceProxyInterceptor`并且实现`serviceAroundImpl()`方法
-  - 调用父类的serviceAround()
+  - 在实现方法类调用父类的serviceAround()
   - 标注上`@Around`注解
   - 在Around里面加入切入点，`PointConstants.POINT_SERVICE`是在工具中定义的一个切入点，也就是对具有自定义注解 `@ServiceProxy`的方法进行拦截，也可以定义自己的切入点。
   - 启动frequest功能，如下mian()方法中前两行代码所示。
-  - 如下，如果要对say()方法进行拦截，则加上 `@ServiceProxy`注解(前提是你使用了定义的切入点`PointConstants.POINT_SERVICE`)
+  - 如下，如果要对say()方法进行拦截，则加上 `@ServiceProxy`注解(前提是你使用了定义的切入点`PointConstants.POINT_SERVICE`，并且要保证请求端和远端拥有相同的方法，包括方法所在的类和包)
 
   ```java
   @Aspect
@@ -98,7 +120,7 @@
 
 
 
-### 3. 远端（相应文件请求端）配置 
+### 4. 远端（相应文件请求端）配置 
 
 - 同样首先需要配置收发文件目录（也就是上面说的xml）
 
@@ -119,11 +141,19 @@
 
   ​
 
-### 4. 其他配置
+### 5. 其他配置
 
+下面的配置具有默认值，所以不进行配置也是可以的。
 
+- sleepTime：休眠时间，单位ms，扫描文件变动的间隔时间和等待远端返回结果的每次等待时间，默认是100ms。
+- waitCount：请求端等待远端返回结果的次数，每次间隔时间为sleepTime，所以总共等待时间为waitCount*sleepTime(ms)。默认等待次数是300次
 
+```java
+//设置休眠时间sleepTime,设置等待结果次数300次
+NormalConfig.getInstance().setSleepTime(100).setWaitCount(300);
+```
 
+## 五.  LICENSE
 
-
+遵循Apache License 2.0
 
