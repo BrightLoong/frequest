@@ -18,7 +18,7 @@
 
 ## 三.具体思路
 
-![实现思路](https://brightloong.github.io/images/frequest-实现思路.png)
+![实现思路](https://brightloong.github.io/images/frequest-思路.png)
 
 **甲：本地服务，需要点去远端服务乙**
 
@@ -150,7 +150,7 @@
 
 ```java
 //设置休眠时间sleepTime,设置等待结果次数300次
-NormalConfig.getInstance().setSleepTime(100).setWaitCount(300);
+ NormalConfig.getInstance().setSleepTime(100).setWaitCount(300);
 ```
 
 ## 五.  LICENSE
