@@ -10,7 +10,7 @@
 ## 二.背景
 之前在项目中遇到一下的需求，如图所示: 甲处要访问部署在乙处的服务serverB(因为数据库在乙处)，不过因为一些限制原因导致甲乙两地的网络不通。但是甲乙两地之间有一个文件传输的系统仅仅可以进行文件的传输交换。
 
-基于以上的条件，考虑在甲地也搭建一个同样的服务serverA（A和B相同，并都加入对请求的处理），。但是过滤它对service层的调用，将方法调用放入文件中（也就是请求文件中），然后将文件发送到乙地对应目录（文件发送的功能并不由这两个系统负责）。serverB将解析文件的请求，调用对应方法，并将结果也存到文件中发送到甲的服务器serveA处，实现请求的响应。
+基于以上的条件，考虑在甲地也搭建一个同样的服务serverA（A和B相同，并都加入对请求的处理），但是过滤它对service层的调用，将方法调用放入文件中（也就是请求文件中），然后将文件发送到乙地对应目录（文件发送的功能并不由这两个系统负责）。serverB将解析文件的请求，调用对应方法，并将结果也存到文件中发送到甲的服务器serveA处，实现请求的响应。
 
 这里把拦截本地方法调用，生请求文件，等待远端返回结果和远端响应文件请求并将结果生成问文件的功能抽取出来，并对这部分功能进行了提炼重构，修改了一些问题，形成了工具frquest(file-request)。
 
@@ -85,7 +85,7 @@
 
 - 如果是简单的java项目可使用下面的方式启动。
 
-  - 继承`ServiceProxyInterceptor`并且实现`serviceAroundImpl()`方法
+  - 继承`AbstractServiceProxyInterceptor`并且实现`serviceAroundImpl()`方法
   - 在实现方法类调用父类的serviceAround()
   - 标注上`@Around`注解
   - 在Around里面加入切入点，`PointConstants.POINT_SERVICE`是在工具中定义的一个切入点，也就是对具有自定义注解 `@ServiceProxy`的方法进行拦截，也可以定义自己的切入点。
@@ -94,7 +94,7 @@
 
   ```java
   @Aspect
-  public class Test extends ServiceProxyInterceptor{
+  public class Test extends AbstractServiceProxyInterceptor{
       @Override
       @Around(PointConstants.POINT_SERVICE)
       public Object serviceAroundImpl(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
